@@ -1,0 +1,62 @@
+# picture of screen
+save chim_movies/ligand.png supersample 3;
+
+# spin movie
+movie record supersample 3; view start; wait 2; roll y 2 180; wait 180; movie encode output chim_movies/spin.mp4 quality high;
+
+
+# zoom on pockets
+# real
+movie record supersample 3; view start; view binding_pocket frames 30; wait 30; movie encode output chim_movies/pockets_start_real.mp4 quality high;
+# p2
+movie record supersample 3; view binding_pocket; view p2 frames 30; wait 30; movie encode output chim_movies/pockets_real_p2.mp4 quality high;
+# p3
+movie record supersample 3; view p2; view p3 frames 30; wait 30; movie encode output chim_movies/pockets_p2_p3.mp4 quality high;
+# back to real
+movie record supersample 3; view p3; view binding_pocket frames 15; wait 15; movie encode output chim_movies/pockets_p3_real.mp4 quality high;
+# back to start
+movie record supersample 3; view p3; view start frames 15; wait 15; movie encode output chim_movies/pockets_p3_start.mp4 quality high;
+
+
+# Show ligand
+movie record supersample 3; hide #1.2 models; view start; wait 2; show #1.2 models; view binding_pocket_close frames 15; wait 15; movie encode output chim_movies/start_ligand.mp4 quality high;
+
+# color fade pocket
+movie record supersample 3; view binding_pocket_close; wait 2; view pocket_view frames 20; open chim_scripts/colorFade.py; movie encode output chim_movies/pocket_color_fade.mp4 quality high;
+
+
+# zoom in to protein atoms, fadeout surface
+movie record supersample 3; view start; show /A:314,315,316,317,318,319,320,321 atoms; transparency 100 atoms; transparency 20 surfaces; view zoomin_atoms frames 30; open chim_scripts/fadeOutSurface.py; hide #1.1.1; open chim_scripts/fadeInAtoms.py; movie encode output chim_movies/protein_atoms_zoom_fadeout_surface.mp4 quality high;
+
+# Add sphere FFD700
+shape sphere center /A:318@CA radius 1 color #FFD700
+movie record supersample 3; view zoomin_atoms; select add /A:318; wait 2; movie encode output chim_movies/318_select.mp4 quality high;
+movie record supersample 3; view zoomin_atoms; show #2; wait 2; movie encode output chim_movies/sphere.mp4 quality high;
+movie record supersample 3; view zoomin_atoms; show #3; show #4; show #5; show #6; show #7; show #8; show #9; select clear; wait 2; movie encode output chim_movies/spheres.mp4 quality high;
+
+# Add edges
+movie record supersample 3; view zoomin_atoms; select #2; wait 2; movie encode output chim_movies/sph_select.mp4 quality high;
+movie record supersample 3; view zoomin_atoms; show #!10 models; wait 2; movie encode output chim_movies/edges.mp4 quality high;
+
+
+## show pockets
+
+# pocket colorfade
+movie record supersample 3; view binding_pocket_close; wait 2; open chim_scripts/colorFade.py; movie encode output chim_movies/pocket_color_fade_close.mp4 quality high;
+
+# real pocket to false pocket
+movie record supersample 3; view binding_pocket_close; wait 2; view alternate_pocket_close frames 20; wait 20; movie encode output chim_movies/pocket_to_false_pocket.mp4 quality high;
+
+
+
+## 1arc
+movie record supersample 3; view start; wait 2; roll y 3 120; wait 120; movie encode output chim_movies/spin_1arc.mp4 quality high;
+
+# zoom and color
+movie record supersample 3; view start; wait 2; view zoom_ligand frames 20; open chim_scripts/colorFade_1arc.py; show #1.2 models; select add #1.2; wait 5; movie encode output chim_movies/zoom_color_1arc.mp4 quality high;
+
+## 2vfc
+movie record supersample 3; view start; wait 2; roll y 3 120; wait 120; movie encode output chim_movies/spin_2vfc.mp4 quality high;
+
+# zoom and color
+movie record supersample 3; view start; wait 2; view zoom_ligand frames 20; open chim_scripts/colorFade_2vfc.py; show #1.2 models; select add #1.2; wait 5; movie encode output chim_movies/zoom_color_2vfc.mp4 quality high;
