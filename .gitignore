@@ -17,7 +17,8 @@ env/
 .idea/
 
 # Data
-data/*
+data/scPDB/*
+data/PDBBind/*
 
 # Models
 models/
